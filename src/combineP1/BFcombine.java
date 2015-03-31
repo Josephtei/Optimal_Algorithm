@@ -18,10 +18,10 @@ public class BFcombine {
 	
 	public static void main(String[] args) {
 		
-		long startTime = System.currentTimeMillis(); //起始時間
-		
 		cSet = new CandidatePoint[candidateNum];
 		readCandidateInf();
+		
+		long startTime = System.currentTimeMillis(); //起始時間
 		bruteforceDP();
 		System.out.println(bestCombination());
 		

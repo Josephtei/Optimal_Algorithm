@@ -14,20 +14,20 @@ public class PruneCombine {
 	public static int candidateNum = 4;
 	public static int peopleNum = 100000;
 	public static CombinationSet[][] dpTable;
-	public static float [] combinationArray;
+	public static float [] combinationArray = new float[peopleNum];
 	
 	
 	public static void main(String[] args) {
 		
-		long startTime = System.currentTimeMillis(); //起始時間
-		
 		cSet = new CandidatePoint[candidateNum];
 		readCandidateInf();
+		
+		long startTime = System.currentTimeMillis(); //起始時間
 		Arrays.sort(cSet);
-		int a = pruneDP();
-		System.out.println(dpTable[a%2][inputK-1].maxValue);
-		System.out.println(dpTable[a%2][inputK-1].CombinationList.size());
-		System.out.println(dpTable[a%2][inputK-1].CombinationList.get(1).CombinationPoint[0].CandidateIndex + " " + dpTable[a%2][inputK-1].CombinationList.get(1).CombinationPoint[1].CandidateIndex);
+		int finalIndex = pruneDP();
+		System.out.println(dpTable[finalIndex%2][inputK-1].maxValue);
+		System.out.println(dpTable[finalIndex%2][inputK-1].CombinationList.size());
+		System.out.println(dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[0].CandidateIndex + " " + dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[1].CandidateIndex);
 		
 //		for(int i=0;i<candidateNum;i++)
 //			System.out.println(cSet[i].totalContribution);
@@ -83,7 +83,6 @@ public class PruneCombine {
 		
 		Combination cb = null;
 		dpTable = new CombinationSet[2][inputK];
-		combinationArray = new float[peopleNum];
 		boolean firstCombine = false;  //第一個出現的k個點集合
 		float cumulation = 0;
 		ArrayList<Combination> removeList = new ArrayList<Combination>();
