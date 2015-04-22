@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class BFcombine {
 	
 	public static CandidatePoint [] cSet;
-	public static int inputK = 2;
-	public static int candidateNum = 4;
-	public static int peopleNum = 100000;
+	public static int inputK = 4;
+	public static int candidateNum = 100;
+	public static int peopleNum = 10000;
 	public static CombinationSet[][] dpTable;
 	
 	public static void main(String[] args) {
@@ -40,7 +40,7 @@ public class BFcombine {
 		int lineCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("test1.out"));
+			br = new BufferedReader(new FileReader("candidateInf1.out"));
 			while(br.ready()){
 				if(lineCounter == candidateNum)
 					break;

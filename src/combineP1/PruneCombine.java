@@ -10,11 +10,12 @@ import java.util.Collections;
 public class PruneCombine {
 
 	public static CandidatePoint [] cSet;
-	public static int inputK = 2;
-	public static int candidateNum = 4;
+	public static int inputK = 4;
+	public static int candidateNum = 100;
 	public static int peopleNum = 100000;
 	public static CombinationSet[][] dpTable;
 	public static float [] combinationArray = new float[peopleNum];
+	public static Combination maxCombinePtr;
 	
 	
 	public static void main(String[] args) {
@@ -27,7 +28,7 @@ public class PruneCombine {
 		int finalIndex = pruneDP();
 		System.out.println(dpTable[finalIndex%2][inputK-1].maxValue);
 		System.out.println(dpTable[finalIndex%2][inputK-1].CombinationList.size());
-		System.out.println(dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[0].CandidateIndex + " " + dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[1].CandidateIndex);
+		//System.out.println(dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[0].CandidateIndex + " " + dpTable[finalIndex%2][inputK-1].CombinationList.get(1).CombinationPoint[1].CandidateIndex);
 		
 //		for(int i=0;i<candidateNum;i++)
 //			System.out.println(cSet[i].totalContribution);
@@ -48,7 +49,7 @@ public class PruneCombine {
 		int lineCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("test1.out"));
+			br = new BufferedReader(new FileReader("candidateInf9.out"));
 			while(br.ready()){
 				if(lineCounter == candidateNum)
 					break;
@@ -127,7 +128,7 @@ public class PruneCombine {
 							}
 						}
 						if(removeList.size()!=0){
-							System.out.println(removeList.size());
+							//System.out.println(removeList.size());
 							dpTable[(i+1)%2][j].CombinationList.removeAll(removeList);
 						}
 										
@@ -158,12 +159,26 @@ public class PruneCombine {
 						
 						countCombineValue(cb);
 						
+//						if(j == (inputK-1)){
+//							if(cb.combineValue > dpTable[i%2][j].maxValue){
+//								dpTable[i%2][j].maxValue = cb.combineValue;
+//								maxCombinePtr = cb;
+//							}
+//						}
+//						else{
+//							if(cb.combineValue > dpTable[i%2][j].maxValue)
+//								dpTable[i%2][j].maxValue = cb.combineValue;
+//							else if(cb.combineValue < dpTable[i%2][j].minValue)
+//								dpTable[i%2][j].minValue = cb.combineValue;
+//							dpTable[i%2][j].CombinationList.add(cb);
+//						}
+						
 						if(cb.combineValue > dpTable[i%2][j].maxValue)
 							dpTable[i%2][j].maxValue = cb.combineValue;
 						else if(cb.combineValue < dpTable[i%2][j].minValue)
 							dpTable[i%2][j].minValue = cb.combineValue;
-						
 						dpTable[i%2][j].CombinationList.add(cb);
+						
 					}
 					if(firstCombine == true)
 					{;}
@@ -183,7 +198,7 @@ public class PruneCombine {
 			if(nowOptimalK == inputK)
 				return i;
 			else{
-				System.out.println(nowOptimalK);
+				//System.out.println(nowOptimalK);
 				nowOptimalK = 1;
 			}
 				

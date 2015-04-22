@@ -10,8 +10,8 @@ import java.util.Collections;
 public class GreedyAlg {
 
 	public static CandidatePoint [] cSet;
-	public static int inputK = 3;
-	public static int candidateNum = 4;
+	public static int inputK = 6;
+	public static int candidateNum = 100;
 	public static int peopleNum = 100000;
 	public static float [] combinationArray = new float [peopleNum];
 	public static byte [] chooseCandidate = new byte [candidateNum];
@@ -23,7 +23,7 @@ public class GreedyAlg {
 
 		long startTime = System.currentTimeMillis(); //起始時間
 		
-		System.out.println(greedyProcess());
+		greedyProcess();
 		
 		long endTime = System.currentTimeMillis();
 		long totTime = endTime - startTime;
@@ -40,7 +40,7 @@ public class GreedyAlg {
 		int lineCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("test1.out"));
+			br = new BufferedReader(new FileReader("candidateInf10.out"));
 			while(br.ready()){
 				if(lineCounter == candidateNum)
 					break;
@@ -69,7 +69,7 @@ public class GreedyAlg {
 		
 	}
 
-	private static float greedyProcess(){
+	private static void greedyProcess(){
 		
 		CandidatePoint nowMax = null;
 		int combinationArrayIndex;
@@ -101,7 +101,6 @@ public class GreedyAlg {
 					increasingValue = 0;
 				}
 			}
-			System.out.println(maxIncreasing);
 			finalValue += maxIncreasing;
 			chooseCandidate[nowMax.CandidateIndex] = 1;
 			maxIncreasing = 0;
@@ -114,9 +113,11 @@ public class GreedyAlg {
 			nowMax = null;
 		}
 		
-//		for(int i=0;i<4;i++)
-//			System.out.println(previousArray[i]);
-		return finalValue;
+		float temp = 0;
+		for(int i=0;i<peopleNum;i++)
+			temp += combinationArray[i];
+		System.out.println(temp);
+		//return finalValue;
 	}
 	
 }
