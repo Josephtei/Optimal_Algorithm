@@ -10,8 +10,8 @@ import java.util.Collections;
 public class GreedyAlg {
 
 	public static CandidatePoint [] cSet;
-	public static int inputK = 6;
-	public static int candidateNum = 100;
+	public static int inputK = 8;
+	public static int candidateNum = 1000;
 	public static int peopleNum = 100000;
 	public static float [] combinationArray = new float [peopleNum];
 	public static byte [] chooseCandidate = new byte [candidateNum];

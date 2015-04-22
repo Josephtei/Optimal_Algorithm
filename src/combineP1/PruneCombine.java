@@ -10,8 +10,8 @@ import java.util.Collections;
 public class PruneCombine {
 
 	public static CandidatePoint [] cSet;
-	public static int inputK = 4;
-	public static int candidateNum = 100;
+	public static int inputK = 8;
+	public static int candidateNum = 1000;
 	public static int peopleNum = 100000;
 	public static CombinationSet[][] dpTable;
 	public static float [] combinationArray = new float[peopleNum];
@@ -49,7 +49,7 @@ public class PruneCombine {
 		int lineCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("candidateInf9.out"));
+			br = new BufferedReader(new FileReader("candidateInf7.out"));
 			while(br.ready()){
 				if(lineCounter == candidateNum)
 					break;
