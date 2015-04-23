@@ -11,16 +11,16 @@ public class GreedyAlg {
 
 	public static CandidatePoint [] cSet;
 	public static int inputK = 8;
-	public static int candidateNum = 1000;
-	public static int peopleNum = 100000;
+	public static int peopleNum = 24493;
 	public static float [] combinationArray = new float [peopleNum];
-	public static byte [] chooseCandidate = new byte [candidateNum];
+	public static byte [] chooseCandidate;
+	public static String fileName = "candidateInf1.out";
 	
 	public static void main(String[] args) {
 		
-		cSet = new CandidatePoint[candidateNum];
 		readCandidateInf();
-
+		chooseCandidate = new byte[cSet.length];
+		
 		long startTime = System.currentTimeMillis(); //起始時間
 		
 		greedyProcess();
@@ -38,28 +38,42 @@ public class GreedyAlg {
 		String [] line;
 		CandidatePoint p;
 		int lineCounter = 0;
+		int notZeroCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("candidateInf10.out"));
+			br = new BufferedReader(new FileReader(fileName));
 			while(br.ready()){
-				if(lineCounter == candidateNum)
-					break;
 				line = br.readLine().split(" ");
-				p = new CandidatePoint();
-				p.CandidateIndex = lineCounter;
-				lineCounter++;
-				p.helpPeopleNum = (line.length-1)/2;
-				for(int i=0;i<line.length;i++){
-					if(i == 0)
-						p.totalContribution = Float.parseFloat(line[i]);
-					else{
-						if(i%2 == 1)
-							p.peoList.add(Integer.parseInt(line[i]));
-						else
-							p.distList.add(Float.parseFloat(line[i]));
+				if(Float.parseFloat(line[0]) != 0)
+					notZeroCounter++;
+			}
+			br.close();
+			
+			cSet = new CandidatePoint[notZeroCounter];
+			
+			br = new BufferedReader(new FileReader(fileName));
+			while(br.ready()){
+
+				line = br.readLine().split(" ");
+				
+				if(Float.parseFloat(line[0]) != 0){
+					p = new CandidatePoint();
+					p.CandidateIndex = lineCounter;
+					lineCounter++;
+					p.helpPeopleNum = (line.length-1)/2;
+					for(int i=0;i<line.length;i++){
+						if(i == 0)
+							p.totalContribution = Float.parseFloat(line[i]);
+						else{
+							if(i%2 == 1)
+								p.peoList.add(Integer.parseInt(line[i]));
+							else
+								p.distList.add(Float.parseFloat(line[i]));
+						}
 					}
+					cSet[p.CandidateIndex] = p;
 				}
-				cSet[p.CandidateIndex] = p;
+			
 			}
 			br.close();
 		}
@@ -68,6 +82,7 @@ public class GreedyAlg {
 		}
 		
 	}
+
 
 	private static void greedyProcess(){
 		
@@ -82,11 +97,11 @@ public class GreedyAlg {
 			combinationArray[i]=0;
 		}
 		
-		for(int i=0;i<candidateNum;i++)
+		for(int i=0;i<cSet.length;i++)
 			chooseCandidate[i] = 0;
 		
 		for(int i=0;i<inputK;i++){
-			for(int j=0;j<candidateNum;j++){
+			for(int j=0;j<cSet.length;j++){
 				if(chooseCandidate[cSet[j].CandidateIndex]!=1){
 					for(int k=0;k<cSet[j].helpPeopleNum;k++){
 						combinationArrayIndex = cSet[j].peoList.get(k);

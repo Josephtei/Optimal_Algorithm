@@ -11,16 +11,15 @@ public class PruneCombineV2 {
 
 	public static CandidatePoint [] cSet;
 	public static int inputK = 8;
-	public static int candidateNum = 1000;
-	public static int peopleNum = 100000;
+	public static int peopleNum = 24493;
 	public static CombinationSet[][] dpTable;
 	public static float [] combinationArray = new float[peopleNum];
 	public static Combination maxCombinePtr;
+	public static String fileName = "candidateInf1.out";
 	
 	
 	public static void main(String[] args) {
 		
-		cSet = new CandidatePoint[candidateNum];
 		readCandidateInf();
 		
 		long startTime = System.currentTimeMillis(); //起始時間
@@ -46,28 +45,42 @@ public class PruneCombineV2 {
 		String [] line;
 		CandidatePoint p;
 		int lineCounter = 0;
+		int notZeroCounter = 0;
 		
 		try{
-			br = new BufferedReader(new FileReader("candidateInf10.out"));
+			br = new BufferedReader(new FileReader(fileName));
 			while(br.ready()){
-				if(lineCounter == candidateNum)
-					break;
 				line = br.readLine().split(" ");
-				p = new CandidatePoint();
-				p.CandidateIndex = lineCounter;
-				lineCounter++;
-				p.helpPeopleNum = (line.length-1)/2;
-				for(int i=0;i<line.length;i++){
-					if(i == 0)
-						p.totalContribution = Float.parseFloat(line[i]);
-					else{
-						if(i%2 == 1)
-							p.peoList.add(Integer.parseInt(line[i]));
-						else
-							p.distList.add(Float.parseFloat(line[i]));
+				if(Float.parseFloat(line[0]) != 0)
+					notZeroCounter++;
+			}
+			br.close();
+			
+			cSet = new CandidatePoint[notZeroCounter];
+			
+			br = new BufferedReader(new FileReader(fileName));
+			while(br.ready()){
+
+				line = br.readLine().split(" ");
+				
+				if(Float.parseFloat(line[0]) != 0){
+					p = new CandidatePoint();
+					p.CandidateIndex = lineCounter;
+					lineCounter++;
+					p.helpPeopleNum = (line.length-1)/2;
+					for(int i=0;i<line.length;i++){
+						if(i == 0)
+							p.totalContribution = Float.parseFloat(line[i]);
+						else{
+							if(i%2 == 1)
+								p.peoList.add(Integer.parseInt(line[i]));
+							else
+								p.distList.add(Float.parseFloat(line[i]));
+						}
 					}
+					cSet[p.CandidateIndex] = p;
 				}
-				cSet[p.CandidateIndex] = p;
+			
 			}
 			br.close();
 		}
@@ -96,7 +109,7 @@ public class PruneCombineV2 {
 		
 		initialTable();
 		
-		for(int i=1;i<candidateNum;i++){ //dpTable執行|candidate|次數
+		for(int i=1;i<cSet.length;i++){ //dpTable執行|candidate|次數
 			
 			if(finishCount == (inputK-1))  //終止條件
 				break;
@@ -136,8 +149,8 @@ public class PruneCombineV2 {
 							removeList.clear();
 							
 							for(int k=1;k<=(inputK-(j+1));k++){    //下方格
-								if((i+k)>(candidateNum-1))
-									cumulation += cSet[candidateNum-1].totalContribution;
+								if((i+k)>(cSet.length-1))
+									cumulation += cSet[cSet.length-1].totalContribution;
 								else
 									cumulation += cSet[i+k].totalContribution;
 							}
@@ -166,8 +179,8 @@ public class PruneCombineV2 {
 							removeList.clear();
 							
 							for(int k=0;k<=(inputK-(j+1));k++){    //左下格
-								if((i+k)>(candidateNum-1))
-									cumulation2 += cSet[candidateNum-1].totalContribution;
+								if((i+k)>(cSet.length-1))
+									cumulation2 += cSet[cSet.length-1].totalContribution;
 								else
 									cumulation2 += cSet[i+k].totalContribution;
 							}
@@ -212,8 +225,8 @@ public class PruneCombineV2 {
 							cumulation = 0;
 							
 							for(int k=1;k<=(inputK-(j+1));k++){
-								if((i+k)>(candidateNum-1))
-									cumulation += cSet[candidateNum-1].totalContribution;
+								if((i+k)>(cSet.length-1))
+									cumulation += cSet[cSet.length-1].totalContribution;
 								else
 									cumulation += cSet[i+k].totalContribution;
 							}
